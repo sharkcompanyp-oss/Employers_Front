@@ -1,2 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700&display=swap");
 @import "tailwindcss";
+@theme {
+  --color-brand: #8c52ff;
+}
+* {
+  font-family: "Noto Kufi Arabic", sans-serif;
+}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { update_exam } from "../store/exam_slice";
 import { ArrowRightIcon, PlusIcon, TrashIcon, SaveIcon } from "lucide-react";
+import { get_one_subject } from "../store/exam_slice";
 
 const Edit_Exam = () => {
   const { id } = useParams();
@@ -38,13 +39,6 @@ const Edit_Exam = () => {
       });
     }
   }, [exam]);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
   const handleQuestionChange = (index, field, value) => {
     setFormData((prev) => {
       const updatedQuestions = [...prev.questions];
@@ -111,7 +105,6 @@ const Edit_Exam = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // Validate questions
     const invalidQuestions = formData.questions.filter(
       (q) => !q.question || q.options.some((opt) => !opt)
@@ -140,76 +133,74 @@ const Edit_Exam = () => {
           },
         })
       );
-    } else {
-      dispatch(
-        add_exam({
-          ...formData,
-        })
-      );
     }
     navigate("/");
   };
   return (
-    <div dir="rtl" className="space-y-6">
+    <div dir="rtl" className="space-y-8">
       {/* العنوان وأيقونة الرجوع */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link
-            to="/"
-            className="text-blue-600 my-4 mx-4 hover:text-blue-800 transition-colors"
-          >
-            <ArrowRightIcon size={35} />
-          </Link>
-        </div>
+      <div className="flex items-center justify-start p-4">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand text-white font-medium shadow-md hover:bg-brand/80 hover:shadow-lg transition-all duration-300"
+        >
+          <ArrowRightIcon size={20} />
+          <span>العودة للرئيسية</span>
+        </Link>
       </div>
 
       {/* الفورم */}
-      <form onSubmit={handleSubmit} className="space-y-8 justify-center">
-        {/* أزرار التحكم */}
-        <div className="flex justify-center gap-4 ">
+      <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto">
+        {/* زر الحفظ الكبير */}
+        <div className="flex justify-center">
           <button
             type="submit"
-            className="bg-blue-600 w-full flex items-center gap-4 h-28 text-3xl justify-center cursor-pointer text-white px-6 py-2 rounded-md   hover:bg-blue-700 transition-colors shadow-sm"
+            className="bg-brand w-full flex items-center gap-4 h-20 text-2xl justify-center cursor-pointer text-white px-6 py-2 rounded-xl hover:bg-brand/90 transition-all shadow-md"
           >
-            <SaveIcon size={35} />
+            <SaveIcon size={30} />
             {"حفظ التغييرات"}
           </button>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">
+        {/* أسئلة الاختبار */}
+        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-gray-800">
               أسئلة الاختبار
             </h2>
             <button
               type="button"
               onClick={addQuestion}
-              className="bg-green-600 text-white px-3 py-1 rounded-md flex items-center hover:bg-green-700 transition-colors text-sm"
+              className="bg-brand/90 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-brand transition-colors text-sm shadow-sm"
             >
-              <PlusIcon size={16} className="ml-1" />
+              <PlusIcon size={16} />
               إضافة سؤال
             </button>
           </div>
+
           <div className="space-y-6">
             {formData.questions.map((question, qIndex) => (
               <div
                 key={qIndex}
-                className="border border-gray-200 rounded-lg p-4"
+                className="border border-gray-200 rounded-lg p-5 bg-gray-50"
               >
-                <div className="flex items-center justify-between mb-3">
+                {/* عنوان السؤال */}
+                <div className="flex items-center justify-between mb-4">
                   <h3 className="font-medium text-gray-800">
                     السؤال {qIndex + 1}
                   </h3>
                   <button
                     type="button"
                     onClick={() => removeQuestion(qIndex)}
-                    className="text-red-600 hover:text-red-800"
+                    className="text-red-600 hover:text-red-700 transition-colors"
                   >
                     <TrashIcon size={18} />
                   </button>
                 </div>
+
+                {/* نص السؤال */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
                     نص السؤال
                   </label>
                   <input
@@ -218,14 +209,16 @@ const Edit_Exam = () => {
                     onChange={(e) =>
                       handleQuestionChange(qIndex, "question", e.target.value)
                     }
-                    className="w-full p-2 border-gray-300 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand"
                     required
                   />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+
+                {/* الخيارات */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   {question.options.map((option, optIndex) => (
                     <div key={optIndex}>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
                         الخيار {optIndex + 1}
                       </label>
                       <input
@@ -234,14 +227,16 @@ const Edit_Exam = () => {
                         onChange={(e) =>
                           handleOptionChange(qIndex, optIndex, e.target.value)
                         }
-                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand"
                         required
                       />
                     </div>
                   ))}
                 </div>
+
+                {/* الإجابة الصحيحة */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
                     الإجابة الصحيحة
                   </label>
                   <select
@@ -249,7 +244,7 @@ const Edit_Exam = () => {
                     onChange={(e) =>
                       handleCorrectOptionChange(qIndex, e.target.value)
                     }
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand"
                     required
                   >
                     <option value={0} disabled>
@@ -265,20 +260,22 @@ const Edit_Exam = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-row justify-center items-center mb-4">
+
+        {/* أزرار أسفل الفورم */}
+        <div className="flex flex-row justify-center items-center gap-4">
           <button
             type="button"
             onClick={addQuestion}
-            className="bg-green-600 mx-4 text-white px-4 py-2 rounded-md flex items-center hover:bg-green-700 transition-colors text-sm"
+            className="bg-brand/90 text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-brand transition-colors text-sm shadow-sm"
           >
-            <PlusIcon size={16} className="ml-1" />
+            <PlusIcon size={16} />
             إضافة سؤال
           </button>
           <button
             type="submit"
-            className="bg-blue-600 h-full text-sm text-white px-4 py-2 rounded-md flex items-center hover:bg-blue-700 transition-colors"
+            className="bg-brand text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-brand/90 transition-colors text-sm shadow-md"
           >
-            <SaveIcon size={18} className="ml-2" />
+            <SaveIcon size={18} />
             {"حفظ التغييرات"}
           </button>
         </div>
