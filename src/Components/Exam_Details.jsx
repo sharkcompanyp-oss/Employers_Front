@@ -75,23 +75,13 @@ const ExamDetails = () => {
                 {exam.questions.length}
               </div>
             </div>
-
-            {/* الطلاب المتاح لهم الاختبار */}
-            <div className="mt-8 w-full text-right">
-              <p className="text-lg font-semibold text-gray-700 mb-4">
-                الاختبار متاح للطلاب:
+            <div className="mt-6 w-full text-center bg-gradient-to-br from-brand/10 to-brand/20 rounded-xl p-5 border border-brand/30">
+              <p className="text-sm font-medium text-gray-600">
+                عدد الطلاب المسجلين على الاختبار
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {exam?.available_to.map((student, index) => (
-                  <li
-                    key={index}
-                    className="bg-brand/10 text-brand rounded-lg px-4 py-2 flex items-center gap-2 hover:bg-brand hover:text-white transition-colors duration-200"
-                  >
-                    <span className="text-sm">🎓</span>
-                    <span className="font-mono text-sm">{student}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="text-3xl font-extrabold text-brand mt-2">
+                {exam.available_to.length - 1}
+              </div>
             </div>
           </div>
         </div>
