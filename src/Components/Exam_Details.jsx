@@ -62,7 +62,7 @@ const ExamDetails = () => {
               </p>
               <p className="text-2xl font-bold text-green-600">
                 {(
-                  (Number(exam.price) * Number(exam.available_to.length - 1)) /
+                  (Number(exam.price) * Number(exam.available_to.length)) /
                   2
                 ).toLocaleString("en")}{" "}
                 ليرة سورية
@@ -80,7 +80,7 @@ const ExamDetails = () => {
                 عدد الطلاب المسجلين على الاختبار
               </p>
               <div className="text-3xl font-extrabold text-brand mt-2">
-                {exam.available_to.length - 1}
+                {exam.available_to.length}
               </div>
             </div>
           </div>
