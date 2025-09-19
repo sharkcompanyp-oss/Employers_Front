@@ -20,7 +20,7 @@ const Home = () => {
           </div>
         </div>
       )}
-      <div className="bg-whiterounded-lg rounded-b-2xl shadow-sm border border-gray-200 ">
+      <div className="bg-whiterounded-lg rounded-b-2xl  border border-gray-200 ">
         <div className="p-4 border-b border-gray-200 flex items-center justify-center">
           <div className="flex flex-col sm:flex-row items-stretch bg-gray-100 rounded-md w-full max-w-lg p-2 gap-2">
             {/* أيقونة + input */}
@@ -58,7 +58,7 @@ const Home = () => {
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-b-2xl shadow-lg border border-brand/30">
+          <div className="overflow-x-auto rounded-b-2xl  border border-brand/30">
             <table className="w-full text-right border-collapse">
               {/* رأس الجدول */}
               <thead className="bg-brand/10 text-brand">

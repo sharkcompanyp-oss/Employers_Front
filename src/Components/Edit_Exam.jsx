@@ -142,7 +142,7 @@ const Edit_Exam = () => {
       <div className="flex items-center justify-start p-4">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand text-white font-medium shadow-md hover:bg-brand/80 hover:shadow-lg transition-all duration-300"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand text-white font-medium  hover:bg-brand/80 hover: transition-all duration-300"
         >
           <ArrowRightIcon size={20} />
           <span>العودة للرئيسية</span>
@@ -152,82 +152,70 @@ const Edit_Exam = () => {
       {/* الفورم */}
       <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto">
         {/* زر الحفظ الكبير */}
-        <div className="flex justify-center">
-          <button
-            type="submit"
-            className="bg-brand w-full flex items-center gap-4 h-20 text-2xl justify-center cursor-pointer text-white px-6 py-2 rounded-xl hover:bg-brand/90 transition-all shadow-md"
-          >
-            <SaveIcon size={30} />
-            {"حفظ التغييرات"}
-          </button>
-        </div>
 
         {/* أسئلة الاختبار */}
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+        <div className="bg-white p-6 rounded-xl  border border-gray-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-800">
-              أسئلة الاختبار
-            </h2>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="bg-brand w-full flex items-center gap-2 h-fit text-sm justify-center cursor-pointer text-white px-2 py-2 rounded-full hover:bg-brand/90 transition-all "
+              >
+                <SaveIcon size={15} />
+                {"حفظ التغييرات"}
+              </button>
+            </div>
             <button
               type="button"
               onClick={addQuestion}
-              className="bg-brand/90 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-brand transition-colors text-sm shadow-sm"
+              className="bg-brand/90 text-white px-4 py-2 rounded-full flex items-center gap-2 hover:bg-brand transition-colors text-sm "
             >
               <PlusIcon size={16} />
               إضافة سؤال
             </button>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             {formData.questions.map((question, qIndex) => (
-              <div
-                key={qIndex}
-                className="border border-gray-200 rounded-lg p-5 bg-gray-50"
-              >
-                {/* عنوان السؤال */}
+              <div key={qIndex} className="p-3 border-brand border-4 rounded">
+                {/* رأس السؤال */}
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium text-gray-800">
-                    السؤال {qIndex + 1}
-                  </h3>
+                  <h3 className="font-semibold">{qIndex + 1}</h3>
                   <button
                     type="button"
                     onClick={() => removeQuestion(qIndex)}
-                    className="text-red-600 hover:text-red-700 transition-colors"
+                    className="text-white text-sm bg-red-500 p-2 rounded-sm"
                   >
-                    <TrashIcon size={18} />
+                    حذف
                   </button>
                 </div>
 
                 {/* نص السؤال */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    نص السؤال
-                  </label>
+                <div className="mb-3">
                   <input
                     type="text"
                     value={question.question}
                     onChange={(e) =>
                       handleQuestionChange(qIndex, "question", e.target.value)
                     }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand"
+                    className="w-full border p-2 rounded text-sm"
+                    placeholder="اكتب نص السؤال..."
                     required
                   />
                 </div>
 
                 {/* الخيارات */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
                   {question.options.map((option, optIndex) => (
                     <div key={optIndex}>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        الخيار {optIndex + 1}
-                      </label>
                       <input
                         type="text"
                         value={option}
                         onChange={(e) =>
                           handleOptionChange(qIndex, optIndex, e.target.value)
                         }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand"
+                        className="w-full border p-2 rounded text-sm"
+                        placeholder={`أدخل الخيار ${optIndex + 1}`}
                         required
                       />
                     </div>
@@ -236,19 +224,16 @@ const Edit_Exam = () => {
 
                 {/* الإجابة الصحيحة */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    الإجابة الصحيحة
-                  </label>
                   <select
                     value={question.answer}
                     onChange={(e) =>
                       handleCorrectOptionChange(qIndex, e.target.value)
                     }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand"
+                    className="w-full mt-4 border-brand border-2 p-2 rounded text-sm"
                     required
                   >
                     <option value={0} disabled>
-                      اختر
+                      اختر الإجابة
                     </option>
                     <option value={1}>الخيار 1</option>
                     <option value={2}>الخيار 2</option>
@@ -266,14 +251,14 @@ const Edit_Exam = () => {
           <button
             type="button"
             onClick={addQuestion}
-            className="bg-brand/90 text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-brand transition-colors text-sm shadow-sm"
+            className="bg-brand/90 text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-brand transition-colors text-sm "
           >
             <PlusIcon size={16} />
             إضافة سؤال
           </button>
           <button
             type="submit"
-            className="bg-brand text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-brand/90 transition-colors text-sm shadow-md"
+            className="bg-brand text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-brand/90 transition-colors text-sm "
           >
             <SaveIcon size={18} />
             {"حفظ التغييرات"}
