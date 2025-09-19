@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { update_exam } from "../store/exam_slice";
-import { ArrowRightIcon, PlusIcon, TrashIcon, SaveIcon } from "lucide-react";
-import { get_one_subject } from "../store/exam_slice";
+import { ArrowRightIcon, PlusIcon, Scissors, SaveIcon } from "lucide-react";
 
 const Edit_Exam = () => {
   const { id } = useParams();
@@ -159,7 +158,7 @@ const Edit_Exam = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-brand w-full flex items-center gap-2 h-fit text-sm justify-center cursor-pointer text-white px-2 py-2 rounded-full hover:bg-brand/90 transition-all "
+                className="bg-brand w-full flex items-center gap-2 h-fit text-sm justify-center cursor-pointer text-white px-4 py-2 rounded-full hover:bg-brand/90 transition-all "
               >
                 <SaveIcon size={15} />
                 {"حفظ التغييرات"}
@@ -190,8 +189,7 @@ const Edit_Exam = () => {
                   </button>
                 </div>
 
-                {/* نص السؤال */}
-                <div className="mb-3">
+                <div className="mb-3 flex items-center gap-2">
                   <input
                     type="text"
                     value={question.question}
@@ -207,7 +205,7 @@ const Edit_Exam = () => {
                 {/* الخيارات */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
                   {question.options.map((option, optIndex) => (
-                    <div key={optIndex}>
+                    <div key={optIndex} className="flex items-center gap-0.5">
                       <input
                         type="text"
                         value={option}
@@ -218,28 +216,41 @@ const Edit_Exam = () => {
                         placeholder={`أدخل الخيار ${optIndex + 1}`}
                         required
                       />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(option); // نسخ إلى الحافظة
+                          handleOptionChange(qIndex, optIndex, ""); // مسح الحقل
+                        }}
+                        className="bg-red-200 text-red-700 px-2 py-2 text-sm hover:bg-red-300"
+                      >
+                        <Scissors size={20} />
+                      </button>
                     </div>
                   ))}
                 </div>
 
                 {/* الإجابة الصحيحة */}
-                <div>
-                  <select
-                    value={question.answer}
-                    onChange={(e) =>
-                      handleCorrectOptionChange(qIndex, e.target.value)
-                    }
-                    className="w-full mt-4 border-brand border-2 p-2 rounded text-sm"
-                    required
-                  >
-                    <option value={0} disabled>
-                      اختر الإجابة
-                    </option>
-                    <option value={1}>الخيار 1</option>
-                    <option value={2}>الخيار 2</option>
-                    <option value={3}>الخيار 3</option>
-                    <option value={4}>الخيار 4</option>
-                  </select>
+                <div className="mt-4">
+                  <div className="grid grid-cols-4 md:grid-cols-4 gap-2">
+                    {question.options.map((option, optIndex) => (
+                      <button
+                        key={optIndex}
+                        type="button"
+                        onClick={() =>
+                          handleCorrectOptionChange(qIndex, optIndex + 1)
+                        }
+                        className={`px-3 py-2 rounded text-sm border cursor-pointer
+          ${
+            question.answer == optIndex + 1
+              ? "bg-brand text-white border-brand"
+              : "bg-gray-100 text-gray-700 border-gray-300"
+          }`}
+                      >
+                        {`${optIndex + 1}`}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
