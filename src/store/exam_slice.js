@@ -23,19 +23,6 @@ export const get_one_subject = createAsyncThunk(
   }
 );
 
-export const update_exam = createAsyncThunk(
-  "exams/updateExam",
-  async ({ updates }) => {
-    const response = await axios.put(
-      `https://qaddha-wqdood-employers.onrender.com/updateexam`,
-      {
-        ...updates,
-      }
-    );
-    return response.data;
-  }
-);
-
 const exam_slice = createSlice({
   name: "exams",
   initialState: {

@@ -97,13 +97,7 @@ const Home = () => {
                         >
                           <EyeIcon size={20} />
                         </Link>
-                        <Link
-                          to={`/exam/edit/${exam.ID}`}
-                          className="p-2 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-500 hover:text-white transition-colors duration-200"
-                          title="تعديل"
-                        >
-                          <EditIcon size={20} />
-                        </Link>
+                        
                       </div>
                     </td>
                   </tr>
